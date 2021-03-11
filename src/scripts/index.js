@@ -135,33 +135,49 @@ function drawFullSquare(x, y, dim) {
   rect(x, y, dim, dim);
 }
 
+const squareSet = [
+  drawFullSquare,
+  drawFullSquare,
+  drawFullSquare,
+  drawFullSquare
+]
 
 
 function createLargeBlock(callbackFunctionArray, smallBlockSize, corner) {
-  const cornerPosX = (corner % 2 === 0 ? 2 : 0) * smallBlockSize;
-  const cornerPosY = (corner < 3 ? 0 : 2) * smallBlockSize;
 
-
-
-
-  const positionSet = [
-    [cornerPosX, cornerPosY, smallBlockSize],
-    [cornerPosX + smallBlockSize, cornerPosY, smallBlockSize],
-    [cornerPosX, cornerPosY + smallBlockSize, smallBlockSize],
-    [cornerPosX + smallBlockSize, cornerPosY + smallBlockSize, smallBlockSize],
-  ];
-
-  let drawnShapes = []
-  for (let i = 0; i < 4; i++) {
-    drawnShapes[i] = callbackFunctionArray[i](positionSet[i][0], positionSet[i][1], positionSet[i][2])
+  let cornerPosX
+  if (corner % 2 === 0) {
+    cornerPosX = 2 * smallBlockSize
+  } else {
+    cornerPosX = 0;
   }
 
-  return drawnShapes
+  let cornerPosY
+  if (corner < 3) {
+    cornerPosY = 0;
+  } else {
+    cornerPosY = 2 * smallBlockSize;
+    console.log(smallBlockSize)
+  }
+
+
+  // clockwise circular order 
+  const positionSet = [
+    [cornerPosX, cornerPosY, smallBlockSize], // top left
+    [cornerPosX + smallBlockSize, cornerPosY, smallBlockSize], // top right
+    [cornerPosX + smallBlockSize, cornerPosY + smallBlockSize, smallBlockSize],  // bottom right corner
+    [cornerPosX, cornerPosY + smallBlockSize, smallBlockSize], // bottom left
+  ];
+
+
+  for (let i = 0; i < 4; i++) {
+    callbackFunctionArray[i](positionSet[i][0], positionSet[i][1], positionSet[i][2])
+  }
 
 }
 
 const shapesToDraw = [
-  drawSteepleBottom,
+  drawSteepleTop,
   drawSteepleLeft,
   drawLeftTop,
   drawSteepleTop
