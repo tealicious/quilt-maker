@@ -1,85 +1,199 @@
-const gridCount = 16;
-const smallBlockSize = window.innerWidth > window.innerHeight ? window.innerHeight / gridCount :  window.innerWidth / gridCount;
+const gridCount = 4;
+let smallBlockSize
+if (window.innerWidth > window.innerHeight) {
+  smallBlockSize = window.innerHeight / gridCount
+} else {
+  smallBlockSize = window.innerWidth / gridCount;
+}
 const colorA = 255;
 const colorB = 122;
 
-function drawSquare(x, y, dim){
+//BLANK or 0 TRIANGLE COMBO
+function drawSquare(x, y, dim) {
   fill(colorA);
   rect(x, y, dim, dim);
 }
 
-function drawVertical(x, y, dim){
+// 1 TRIANGLE
+function drawLeftTriangle(x, y, dim) {
   fill(colorA);
-  rect(x, y, dim/2, dim);
+  drawSquare(x, y, dim)
   fill(colorB);
-  rect(x+dim/2, y, dim/2, dim);
+  triangle(x, y, x + dim / 2, y + dim / 2, x, y + dim);
 }
 
-function drawHorizontal(x, y, dim){
+function drawRightTriangle(x, y, dim) {
   fill(colorA);
-  rect(x, y, dim, dim/2);
+  drawSquare(x, y, dim)
   fill(colorB);
-  rect(x, y+dim/2, dim, dim/2);
+  triangle(x + dim, y, x + dim / 2, y + dim / 2, x + dim, y + dim);
 }
 
-function drawDiagonalLeft(x, y, dim){
+function drawBottomTriangle(x, y, dim) {
   fill(colorA);
-  triangle(x, y, x+dim, y, x, y+dim);
+  drawSquare(x, y, dim)
   fill(colorB);
-  triangle(x, y+dim, x+dim, y+dim, x+dim, y);
+  triangle(x, y + dim, x + dim / 2, y + dim / 2, x + dim, y + dim);
 }
 
-// Single Diagonal Blocks
-function drawDiagonalRight(x, y, dim){
+function drawTopTriangle(x, y, dim) {
   fill(colorA);
-  triangle(x, y, x+dim, y, x+dim, y+dim);
+  drawSquare(x, y, dim)
   fill(colorB);
-  triangle(x, y, x, y+dim, x+dim, y+dim);
+  triangle(x, y, x + dim / 2, y + dim / 2, x + dim, y);
 }
 
-
-// Double Straight Block
-function drawBothStraight(x, y, dim){
+// 2 TRIANGLE COMBO
+function drawBowtie(x, y, dim) {
   fill(colorA);
-  rect(x, y, dim/2, dim/2);
-  rect(x+dim/2, y+dim/2, dim/2, dim/2);
+  drawSquare(x, y, dim)
   fill(colorB);
-  rect(x+dim/2, y, dim/2, dim/2);
-  rect(x, y+dim/2, dim/2, dim/2); 
+  triangle(x, y, x + dim / 2, y + dim / 2, x, y + dim);
+  triangle(x + dim, y, x + dim / 2, y + dim / 2, x + dim, y + dim);
 }
 
-// Double Diagonal Straight Block
-function drawBothDiagonal(x, y, dim){
+function drawHourGlass(x, y, dim) {
   fill(colorA);
-  triangle(x, y, x+dim, y, x+(dim/2), y+(dim/2));   
-  triangle(x, y+dim, x+dim/2, y+dim/2, x+dim, y+dim);
+  drawSquare(x, y, dim)
   fill(colorB);
-  triangle(x, y, x+dim/2, y+dim/2, x, y+dim);
-  triangle(x+dim, y, x+dim/2, y+dim/2, x+dim, y+dim);
+  triangle(x, y, x + dim / 2, y + dim / 2, x + dim, y);
+  triangle(x, y + dim, x + dim / 2, y + dim / 2, x + dim, y + dim);
 }
 
-function createLargeBlock(smallBlockSize, corner) {
-  const cornerPosX = (corner % 2 === 0 ? 2 : 0) * smallBlockSize; 
-  const cornerPosY = (corner < 3 ? 0 : 2) * smallBlockSize;
-  console.log(cornerPosX, cornerPosY);
-  return [
-    drawSquare(cornerPosX, cornerPosY, smallBlockSize),
-    drawHorizontal(cornerPosX + smallBlockSize, cornerPosY, smallBlockSize),
-    drawSquare(cornerPosX, cornerPosY + smallBlockSize, smallBlockSize),
-    drawDiagonalRight(cornerPosX + smallBlockSize, cornerPosY + smallBlockSize, smallBlockSize),
+function drawLeftBottom(x, y, dim) {
+  fill(colorA);
+  drawSquare(x, y, dim)
+  fill(colorB);
+  triangle(x, y, x + dim / 2, y + dim / 2, x, y + dim);
+  triangle(x, y + dim, x + dim / 2, y + dim / 2, x + dim, y + dim);
+}
+
+function drawLeftTop(x, y, dim) {
+  fill(colorA);
+  drawSquare(x, y, dim)
+  fill(colorB);
+  triangle(x, y, x + dim / 2, y + dim / 2, x, y + dim);
+  triangle(x, y, x + dim / 2, y + dim / 2, x + dim, y);
+}
+
+function drawRightBottom(x, y, dim) {
+  fill(colorA);
+  drawSquare(x, y, dim)
+  fill(colorB);
+  triangle(x + dim, y, x + dim / 2, y + dim / 2, x + dim, y + dim);
+  triangle(x, y + dim, x + dim / 2, y + dim / 2, x + dim, y + dim);
+}
+
+function drawRightTop(x, y, dim) {
+  fill(colorA);
+  drawSquare(x, y, dim)
+  fill(colorB);
+  triangle(x + dim, y, x + dim / 2, y + dim / 2, x + dim, y + dim);
+  triangle(x, y, x + dim / 2, y + dim / 2, x + dim, y);
+}
+
+// 3 TRIANGLE COMBO
+function drawSteepleLeft(x, y, dim) {
+  fill(colorA);
+  drawSquare(x, y, dim)
+  fill(colorB);
+  triangle(x, y, x + dim / 2, y + dim / 2, x, y + dim);
+  triangle(x, y + dim, x + dim / 2, y + dim / 2, x + dim, y + dim);
+  triangle(x, y, x + dim / 2, y + dim / 2, x + dim, y);
+}
+
+function drawSteepleRight(x, y, dim) {
+  fill(colorA);
+  drawSquare(x, y, dim)
+  fill(colorB);
+  triangle(x + dim, y, x + dim / 2, y + dim / 2, x + dim, y + dim);
+  triangle(x, y + dim, x + dim / 2, y + dim / 2, x + dim, y + dim);
+  triangle(x, y, x + dim / 2, y + dim / 2, x + dim, y);
+}
+
+function drawSteepleBottom(x, y, dim) {
+  fill(colorA);
+  drawSquare(x, y, dim)
+  fill(colorB);
+  triangle(x, y + dim, x + dim / 2, y + dim / 2, x + dim, y + dim);
+  triangle(x + dim, y, x + dim / 2, y + dim / 2, x + dim, y + dim);
+  triangle(x, y, x + dim / 2, y + dim / 2, x, y + dim);
+}
+
+function drawSteepleTop(x, y, dim) {
+  fill(colorA);
+  drawSquare(x, y, dim)
+  fill(colorB);
+  triangle(x, y, x + dim / 2, y + dim / 2, x + dim, y);
+  triangle(x + dim, y, x + dim / 2, y + dim / 2, x + dim, y + dim);
+  triangle(x, y, x + dim / 2, y + dim / 2, x, y + dim);
+}
+
+// 4 TRIANGLE COMBO
+function drawFullSquare(x, y, dim) {
+  fill(colorB);
+  rect(x, y, dim, dim);
+}
+
+const squareSet = [
+  drawFullSquare,
+  drawFullSquare,
+  drawFullSquare,
+  drawFullSquare
+]
+
+
+function createLargeBlock(callbackFunctionArray, smallBlockSize, corner) {
+
+  let cornerPosX
+  if (corner % 2 === 0) {
+    cornerPosX = 2 * smallBlockSize
+  } else {
+    cornerPosX = 0;
+  }
+
+  let cornerPosY
+  if (corner < 3) {
+    cornerPosY = 0;
+  } else {
+    cornerPosY = 2 * smallBlockSize;
+    console.log(smallBlockSize)
+  }
+
+
+  // clockwise circular order 
+  const positionSet = [
+    [cornerPosX, cornerPosY, smallBlockSize], // top left
+    [cornerPosX + smallBlockSize, cornerPosY, smallBlockSize], // top right
+    [cornerPosX + smallBlockSize, cornerPosY + smallBlockSize, smallBlockSize],  // bottom right corner
+    [cornerPosX, cornerPosY + smallBlockSize, smallBlockSize], // bottom left
   ];
+
+
+  for (let i = 0; i < 4; i++) {
+    callbackFunctionArray[i](positionSet[i][0], positionSet[i][1], positionSet[i][2])
+  }
+
+}
+
+const shapesToDraw = [
+  drawSteepleTop,
+  drawSteepleLeft,
+  drawLeftTop,
+  drawSteepleTop
+]
+
+function createFourCorner() {
+  for (let i = 0; i < 4; i++) {
+    createLargeBlock(shapesToDraw, smallBlockSize, i + 1);
+  }
 }
 
 setup = () => {
-createCanvas(gridCount*smallBlockSize, gridCount*smallBlockSize);
-background(0);
-noStroke();
+  createCanvas(gridCount * smallBlockSize, gridCount * smallBlockSize);
+  background(0);
+  noStroke(0);
 
-createLargeBlock(smallBlockSize, 1);
-createLargeBlock(smallBlockSize, 2);
-createLargeBlock(smallBlockSize, 3);
-createLargeBlock(smallBlockSize, 4);
-  // for (let i = 0; i < 4; i ++) {
-  //   createLargeBlock(smallBlockSize, i);
-  // }
+
+  createFourCorner();
 };
